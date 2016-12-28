@@ -10,9 +10,22 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var task: ESPTouchTask!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        task = ESPTouchTask(apSsid: "Coffizz",
+                            andApBssid: "",
+                            andApPwd: "77882233",
+                            andIsSsidHiden: false)
+        
+        task.setEsptouchDelegate(self)
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            _ = self.task.executeForResult()
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,6 +33,12 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    
+}
 
+extension ViewController: ESPTouchDelegate {
+    func onEsptouchResultAdded(with result: ESPTouchResult!) {
+        print("\(result.description)")
+    }
 }
 
